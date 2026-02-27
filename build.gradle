@@ -1,0 +1,77 @@
+import phronesis.CreateDatabaseTask
+import org.flywaydb.gradle.task.FlywayMigrateTask
+
+plugins {
+	id 'java'
+	id 'application'
+	id 'jacoco'
+
+	id 'org.flywaydb.flyway' version '9.22.3'
+	id 'org.springframework.boot' version '3.4.3'
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation(
+			'com.h2database:h2:2.4.240',
+			'org.flywaydb:flyway-core:9.22.3',
+			'org.springframework.boot:spring-boot-starter-web:4.0.3',
+			'org.springframework.boot:spring-boot-starter-data-jpa:4.0.3'
+	)
+
+	testImplementation(
+			'org.junit.jupiter:junit-jupiter-api:6.0.3',
+			'org.springframework.boot:spring-boot-starter-test:4.0.3',
+			'org.springframework.boot:spring-boot-starter-webmvc-test:4.0.3'
+	)
+	testRuntimeOnly(
+			'org.junit.jupiter:junit-jupiter-engine:6.0.3'
+	)
+}
+
+bootJar {
+	mainClassName = 'phronesis.Main'
+}
+
+tasks.withType(JavaCompile).all {
+	options.compilerArgs.add("-Xlint:all")
+}
+
+task createDatabase(type: CreateDatabaseTask) {
+	path = project.projectDir.getAbsolutePath()
+}
+
+task migrateDatabase(type: FlywayMigrateTask) {
+	dependsOn(createDatabase)
+
+	url = 'jdbc:h2:' + project.projectDir.getAbsolutePath() + '/database'
+	user = 'phronesis'
+	password = 'password'
+}
+
+test {
+	testLogging {
+		events "passed", "skipped", "failed"
+		outputs.upToDateWhen { false }
+		showStandardStreams = true
+	}
+
+	useJUnitPlatform()
+}
+
+jacoco {
+	toolVersion = "0.8.14"
+}
+
+jacocoTestReport {
+	reports {
+		xml.required.set(false)
+		csv.required.set(false)
+		html.required.set(true)
+	}
+}
+
+test.finalizedBy jacocoTestReport
