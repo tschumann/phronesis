@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = "com.wuffesan.api")
+@ComponentScan(basePackages = {"com.wuffesan.api", "org.natural_selection.www"})
 public class Main {
 
     // entry-point
