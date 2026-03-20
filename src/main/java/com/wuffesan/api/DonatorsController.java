@@ -10,9 +10,9 @@ public class DonatorsController {
     /**
      * See https://github.com/Monochrome-Inc/ZombiePanic-HL/blob/master/src/game/client/gameui/gameui_viewport.cpp
      *
-     * @param steamid
-     * @param v
-     * @return
+     * @param steamid Steam ID (integer/long format)
+     * @param v Version
+     * @return Donator information
      */
     @GetMapping("/donators/check/")
     public String donatorsCheck(@RequestParam(required = false) String steamid, @RequestParam(required = false) String v) {

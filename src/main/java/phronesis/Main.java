@@ -8,7 +8,6 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = {"com.wuffesan.api", "org.natural_selection.www"})
 public class Main {
 
-    // entry-point
     public static void main(String[] args) {
         SpringApplication.run(Main.class, args);
     }
