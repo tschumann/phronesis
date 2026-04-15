@@ -33,6 +33,15 @@ You may need to point directly to your installation of Java e.g. `"C:\Program Fi
 java -jar ./build/libs/phronesis.jar
 ```
 
+### Natural Selection
+```
+curl -H "Authorization: Basic YXV0aDptbmJ2NXRnYg==" "http://localhost:8080/auth.txt"
+```
+```
+curl -H "Authorization: Basic YXV0aDptbmJ2NXRnYg==" "http://localhost:8080/auth/version.txt"
+```
+
+### Zombie Panic!
 ```
 curl "http://localhost:8080/donators/check/?steamid=1&v=3"
 ```
