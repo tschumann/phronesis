@@ -15,16 +15,43 @@ public class VictoryStatsControllerTest {
     private RestTestClient restTestClient;
 
     @Test
-    public void testVictoryStats() {
+    public void testVictoryStatsMissing() {
         restTestClient.post().uri("/cgi-bin/VictoryStats.pl")
                 .exchange()
-                .expectStatus().isOk()
-                .expectBody().isEmpty();
+                .expectStatus().isBadRequest()
+                .expectBody(String.class).isEqualTo("Invalid format");
+
+        restTestClient.post().uri("/cgi-bin/ikonboard/ikonboard.cgi")
+                .exchange()
+                .expectStatus().isBadRequest()
+                .expectBody(String.class).isEqualTo("Invalid format");
     }
 
     @Test
-    public void testIkonBoard() {
+    public void testVictoryStatsInvalid() {
+        restTestClient.post().uri("/cgi-bin/VictoryStats.pl")
+                .body("a")
+                .exchange()
+                .expectStatus().isBadRequest()
+                .expectBody(String.class).isEqualTo("Invalid format");
+
         restTestClient.post().uri("/cgi-bin/ikonboard/ikonboard.cgi")
+                .body("a")
+                .exchange()
+                .expectStatus().isBadRequest()
+                .expectBody(String.class).isEqualTo("Invalid format");
+    }
+
+    @Test
+    public void testVictoryStatsSuccess() {
+        restTestClient.post().uri("/cgi-bin/VictoryStats.pl")
+                .body("1?aliens?32?32?ns_eclipse?v3.2.0?60?0")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody().isEmpty();
+
+        restTestClient.post().uri("/cgi-bin/ikonboard/ikonboard.cgi")
+                .body("1?aliens?32?32?ns_eclipse?v3.2.0?60?0")
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody().isEmpty();
