@@ -29,7 +29,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests((auth) -> {
                     auth
                             .requestMatchers("/auth.txt").authenticated()
-                            .requestMatchers("/auth/version.txt").authenticated();
+                            .requestMatchers("/auth/version.txt").authenticated()
+                            .requestMatchers("/auth.php").authenticated()
+                            .requestMatchers("/auth/").authenticated();
 
                     auth.anyRequest().permitAll();
                 });

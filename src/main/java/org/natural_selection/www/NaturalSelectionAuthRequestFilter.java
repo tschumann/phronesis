@@ -24,7 +24,7 @@ public class NaturalSelectionAuthRequestFilter extends GenericFilterBean {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         final HttpServletRequest request = (HttpServletRequest)servletRequest;
 
-        if (!request.getRequestURI().equals("/auth.txt") && !request.getRequestURI().equals("/auth/version.txt")) {
+        if (!request.getRequestURI().equals("/auth.txt") && !request.getRequestURI().equals("/auth/version.txt") && !request.getRequestURI().equals("/auth.php") && !request.getRequestURI().equals("/auth/")) {
             filterChain.doFilter(servletRequest, servletResponse);
 
             return;

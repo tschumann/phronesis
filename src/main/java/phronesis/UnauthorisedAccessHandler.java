@@ -14,7 +14,7 @@ public class UnauthorisedAccessHandler implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
-        if (request.getRequestURI().equals("/auth.txt") || request.getRequestURI().equals("/auth/version.txt")) {
+        if (request.getRequestURI().equals("/auth.txt") || request.getRequestURI().equals("/auth/version.txt") || request.getRequestURI().equals("/auth.php") || request.getRequestURI().equals("/auth/")) {
             response.setContentType("text/plain");
             response.setStatus(403);
             response.getWriter().write("Bad credentials");
