@@ -1,6 +1,7 @@
 package org.natural_selection.www;
 
 import java.util.regex.Pattern;
+import org.jspecify.annotations.Nullable;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -22,7 +23,7 @@ public class VictoryStatsController {
      * @return Nothing
      */
     @PostMapping({"/cgi-bin/VictoryStats.pl", "/cgi-bin/ikonboard/ikonboard.cgi"})
-    public String victoryStats(@RequestBody(required = false) String request) {
+    public String victoryStats(@RequestBody(required = false) @Nullable String request) {
         // TODO: guessing what the original implementation did for validation
         if (request == null || !victoryString.matcher(request).matches()) {
             throw new NaturalSelectionValidationException("Invalid format");

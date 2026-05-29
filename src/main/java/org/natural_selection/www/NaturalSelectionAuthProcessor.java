@@ -3,6 +3,7 @@ package org.natural_selection.www;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
+import org.jspecify.annotations.Nullable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,6 +16,7 @@ public class NaturalSelectionAuthProcessor {
 
     public static final String NS_ROLE = "ns";
 
+    @Nullable
     public Authentication authenticate(HttpServletRequest request) {
         final String authorisation = request.getHeader("Authorization");
 
