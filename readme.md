@@ -14,7 +14,7 @@ Initialise
 
 Note that this seems to spew out exceptions but seems to work:
 ```
-./gradlew build -x test createDatabase migrateDatabase
+./gradlew build -x test
 ```
 
 Test
@@ -48,6 +48,9 @@ curl -H "Content-Type: text/plain" --data "1?aliens?32?32?ns_eclipse?v3.2.0?60?0
 ```
 
 ### Zombie Panic!
+```
+curl "http://localhost:8080/donators/check/?steamid=1&v=2"
+```
 ```
 curl "http://localhost:8080/donators/check/?steamid=1&v=3"
 ```

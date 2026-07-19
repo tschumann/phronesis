@@ -6,7 +6,7 @@ plugins {
 	id 'application'
 	id 'jacoco'
 
-	id 'org.flywaydb.flyway' version '9.22.3'
+	id 'org.flywaydb.flyway' version '12.9.0'
 	id 'org.springframework.boot' version '3.4.3'
 }
 
@@ -16,10 +16,10 @@ repositories {
 
 dependencies {
 	implementation(
-			'com.h2database:h2:2.4.240',
-			'org.flywaydb:flyway-core:9.22.3',
+			'com.h2database:h2:2.3.232',
+			'org.flywaydb:flyway-core:12.9.0',
 			'org.jspecify:jspecify:1.0.0',
-			"org.springframework.boot:spring-boot-h2console:4.0.3",
+			'org.springframework.boot:spring-boot-h2console:4.0.3',
 			'org.springframework.boot:spring-boot-starter-data-jpa:4.0.3',
 			'org.springframework.boot:spring-boot-starter-security:4.0.3',
 			'org.springframework.boot:spring-boot-starter-web:4.0.3'
@@ -44,19 +44,38 @@ tasks.withType(JavaCompile).all {
 	options.compilerArgs.add("-Xlint:all")
 }
 
-task createDatabase(type: CreateDatabaseTask) {
-	path = project.projectDir.getAbsolutePath()
-}
+task createDatabase(type: CreateDatabaseTask)
 
 task migrateDatabase(type: FlywayMigrateTask) {
 	dependsOn(createDatabase)
 
-	url = 'jdbc:h2:' + project.projectDir.getAbsolutePath() + '/database'
-	user = 'phronesis'
-	password = 'password'
+	// TODO: specify these a better way
+	url = "jdbc:h2:" + project.projectDir.getAbsolutePath() + "/database"
+	user = "sa"
+	password = "password"
+
+	doLast {
+		println("migrateDatabase complete")
+	}
+}
+
+task migrateTestDatabase(type: FlywayMigrateTask) {
+	dependsOn(createDatabase)
+
+	// TODO: specify these a better way
+	url = "jdbc:h2:" + project.projectDir.getAbsolutePath() + "/database-test"
+	user = "sa"
+	password = "password"
+
+	doLast {
+		println("migrateTestDatabase complete")
+	}
 }
 
 test {
+	dependsOn(migrateDatabase, migrateTestDatabase)
+	finalizedBy(jacocoTestReport)
+
 	testLogging {
 		events "passed", "skipped", "failed"
 		outputs.upToDateWhen { false }
@@ -77,5 +96,3 @@ jacocoTestReport {
 		html.required.set(true)
 	}
 }
-
-test.finalizedBy jacocoTestReport

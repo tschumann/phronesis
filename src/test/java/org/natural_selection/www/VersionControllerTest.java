@@ -6,12 +6,13 @@ import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureRestTe
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.test.web.servlet.client.RestTestClient;
+import phronesis.BaseTest;
 import phronesis.Main;
 
 @SpringBootTest(classes = Main.class)
 @AutoConfigureRestTestClient
 @AutoConfigureMockMvc
-public class VersionControllerTest {
+public class VersionControllerTest extends BaseTest {
 
     @Autowired
     private RestTestClient restTestClient;

@@ -5,21 +5,19 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import org.gradle.api.DefaultTask;
-import org.gradle.api.tasks.Input;
+import org.gradle.api.tasks.Internal;
 import org.gradle.api.tasks.TaskAction;
 import org.h2.Driver;
 
 /**
- * Create a H2 database - do this in a Gradle plugin because doing it in build.gradle doesn't work (Gradle can't see H2 in its classpath?).
+ * Create a H2 database.
  * This seems to spew out of memory exceptions even though it works.
  */
 public class CreateDatabaseTask extends DefaultTask {
 
-    @Input
-    public String path;
-
-    public String getPath() {
-        return path;
+    @Internal
+    public String getDatabasePath() {
+        return "jdbc:h2:" + getProject().getProjectDir().getAbsolutePath() + "/";
     }
 
     @TaskAction
@@ -28,7 +26,9 @@ public class CreateDatabaseTask extends DefaultTask {
         DriverManager.registerDriver(new Driver());
 
         // to create a H2 database, connect to it
-        final Connection connection = DriverManager.getConnection("jdbc:h2:" + getPath() +  "/database", "phronesis", "password");
+        Connection connection = DriverManager.getConnection(getDatabasePath() + "database", "sa", "password");
+        connection.close();
+        connection = DriverManager.getConnection(getDatabasePath() + "database-test", "sa", "password");
         connection.close();
     }
 }
