@@ -59,21 +59,7 @@ task migrateDatabase(type: FlywayMigrateTask) {
 	}
 }
 
-task migrateTestDatabase(type: FlywayMigrateTask) {
-	dependsOn(createDatabase)
-
-	// TODO: specify these a better way
-	url = "jdbc:h2:" + project.projectDir.getAbsolutePath() + "/database-test"
-	user = "sa"
-	password = "password"
-
-	doLast {
-		println("migrateTestDatabase complete")
-	}
-}
-
 test {
-	dependsOn(migrateDatabase, migrateTestDatabase)
 	finalizedBy(jacocoTestReport)
 
 	testLogging {

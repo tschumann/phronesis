@@ -6,7 +6,7 @@ Build
 -----
 
 ```
-./gradlew bootJar
+./gradlew bootJar migrateDatabase
 ```
 
 Initialise

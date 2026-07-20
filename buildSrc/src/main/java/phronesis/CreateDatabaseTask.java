@@ -26,9 +26,7 @@ public class CreateDatabaseTask extends DefaultTask {
         DriverManager.registerDriver(new Driver());
 
         // to create a H2 database, connect to it
-        Connection connection = DriverManager.getConnection(getDatabasePath() + "database", "sa", "password");
-        connection.close();
-        connection = DriverManager.getConnection(getDatabasePath() + "database-test", "sa", "password");
+        final Connection connection = DriverManager.getConnection(getDatabasePath() + "database", "sa", "password");
         connection.close();
     }
 }
