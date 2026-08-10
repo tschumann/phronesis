@@ -1,5 +1,6 @@
 package phronesis;
 
+import com.teamfortress.www.TeamFortress2AuthRequestFilter;
 import org.natural_selection.www.NaturalSelectionAuthRequestFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,10 +15,13 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private NaturalSelectionAuthRequestFilter naturalSelectionAuthRequestFilter;
+    private final NaturalSelectionAuthRequestFilter naturalSelectionAuthRequestFilter;
 
-    public SecurityConfig(NaturalSelectionAuthRequestFilter naturalSelectionAuthRequestFilter) {
+    private final TeamFortress2AuthRequestFilter teamFortress2AuthRequestFilter;
+
+    public SecurityConfig(NaturalSelectionAuthRequestFilter naturalSelectionAuthRequestFilter, TeamFortress2AuthRequestFilter teamFortress2AuthRequestFilter) {
         this.naturalSelectionAuthRequestFilter = naturalSelectionAuthRequestFilter;
+        this.teamFortress2AuthRequestFilter = teamFortress2AuthRequestFilter;
     }
 
     @Bean
@@ -40,6 +44,7 @@ public class SecurityConfig {
         });
 
         http.addFilterAfter(naturalSelectionAuthRequestFilter, BasicAuthenticationFilter.class);
+        http.addFilterAfter(teamFortress2AuthRequestFilter, BasicAuthenticationFilter.class);
 
         return http.build();
     }
