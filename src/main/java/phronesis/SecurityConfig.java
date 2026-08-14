@@ -39,7 +39,9 @@ public class SecurityConfig {
                     .requestMatchers("/auth.txt").authenticated()
                     .requestMatchers("/auth/version.txt").authenticated()
                     .requestMatchers("/auth.php").authenticated()
-                    .requestMatchers("/auth/").authenticated();
+                    .requestMatchers("/auth/").authenticated()
+                    .requestMatchers("/ISDK/GetEquipment/v0001").authenticated()
+                    .requestMatchers("/ISDK/GetInventory/v0001").authenticated();
             auth.anyRequest().permitAll();
         });
 

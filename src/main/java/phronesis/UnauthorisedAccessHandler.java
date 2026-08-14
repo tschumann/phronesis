@@ -14,12 +14,17 @@ public class UnauthorisedAccessHandler implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
-        if (request.getRequestURI().equals("/auth.txt") || request.getRequestURI().equals("/auth/version.txt") || request.getRequestURI().equals("/auth.php") || request.getRequestURI().equals("/auth/")) {
+        if (request.getRequestURI().equals("/ISDK/GetEquipment/v0001") || request.getRequestURI().equals("/ISDK/GetInventory/v0001")) {
+            response.setContentType("application/json");
+            response.setStatus(200);
+            response.getWriter().write("{\n    \"result\": 8,\n    \"error\": \"no msg specified\"\n}");
+        }
+        else if (request.getRequestURI().equals("/auth.txt") || request.getRequestURI().equals("/auth/version.txt") || request.getRequestURI().equals("/auth.php") || request.getRequestURI().equals("/auth/")) {
             response.setContentType("text/plain");
             response.setStatus(403);
             response.getWriter().write("Bad credentials");
         }
 
-        // TODO: anything to do here? ideally just fall back to what SpringBoot does and only override when we need to
+        // TODO: call the parent?
     }
 }

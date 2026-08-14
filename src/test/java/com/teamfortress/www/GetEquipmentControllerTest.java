@@ -13,8 +13,16 @@ import phronesis.Main;
 public class GetEquipmentControllerTest extends BaseTest {
 
     @Test
-    public void testGetEquipment() {
+    public void testGetEquipmentNoTicket() {
         restTestClient.get().uri("/ISDK/GetEquipment/v0001")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(String.class).isEqualTo("{\n    \"result\": 8,\n    \"error\": \"no msg specified\"\n}");
+    }
+
+    @Test
+    public void testGetEquipment() {
+        restTestClient.get().uri("/ISDK/GetEquipment/v0001?ticket=abcdef")
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(String.class).isEqualTo("{}");

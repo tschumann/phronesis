@@ -18,11 +18,18 @@ public class TeamFortress2AuthProcessor {
 
     @Nullable
     public Authentication authenticate(HttpServletRequest request) {
+        final String ticket = request.getParameter("ticket");
+
+        // TODO: check for something vaguely correct-looking
+        if (ticket != null) {
             final List<GrantedAuthority> grantedAuthorities = new ArrayList<>(1);
             grantedAuthorities.add(new SimpleGrantedAuthority(TF_ROLE));
 
             final User user = new User("tf", "", grantedAuthorities);
 
             return new UsernamePasswordAuthenticationToken(user, null, grantedAuthorities);
+        }
+
+        return null;
     }
 }

@@ -13,8 +13,16 @@ import phronesis.Main;
 public class GetInventoryControllerTest extends BaseTest {
 
     @Test
-    public void testGetInventory() {
+    public void testGetInventoryNoTicket() {
         restTestClient.get().uri("/ISDK/GetInventory/v0001")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(String.class).isEqualTo("{\n    \"result\": 8,\n    \"error\": \"no msg specified\"\n}");
+    }
+
+    @Test
+    public void testGetInventory() {
+        restTestClient.get().uri("/ISDK/GetInventory/v0001?ticket=abcdef")
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(String.class).isEqualTo("{}");
